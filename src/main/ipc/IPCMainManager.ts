@@ -1,4 +1,4 @@
-import { ipcMain, Event, BrowserWindow } from "electron";
+import { ipcMain, Event, BrowserWindow, shell } from "electron";
 import { IPCRendererToMainChannelName, IPCMainToRenderChannelName } from "./IPCChannelName";
 import * as path from 'path';
 import { Globals } from '../config/globals';
@@ -50,6 +50,12 @@ export default class IPCMainManager {
 				this.sendMessageToRenderer(IPCMainToRenderChannelName.MAIN_INFO, { logPath, chromeVersion: process.versions["chrome"], electronVersion: process.versions["electron"], nodeVersion: process.versions["node"] })
 				event.returnValue = true
 				break;
+			case (IPCRendererToMainChannelName.OPEN_DEV_TOOL):
+				this.handleOpenDevTool();
+				break;
+			case (IPCRendererToMainChannelName.OPEN_URL):
+				this.handleOpenUrl(event, args);
+				break;
 			default:
 				break;
 		}
@@ -64,5 +70,14 @@ export default class IPCMainManager {
 		const type = args[0]
 		const opts = args[1]
 		DialogManager.getInstance().alertDialogCallback(type, opts);
+	}
+
+	private handleOpenDevTool() {
+		this.mainWindow && this.mainWindow.webContents.openDevTools();
+	}
+
+	private handleOpenUrl(event: any, args: any[]) {
+		const url = args[0] as string;
+		shell.openExternal(url);
 	}
 }

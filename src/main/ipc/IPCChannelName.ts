@@ -12,6 +12,8 @@ enum IPCMainToRenderChannelName {
 
 enum IPCRendererToMainChannelName {
 	RENDERER_READY = "RENDERER_READY",
+	OPEN_DEV_TOOL = "OPEN_DEV_TOOL",
+	OPEN_URL = "OPEN_URL",
 
 	// hotUpdateDialogWindow专用的ipc
 	HOT_UPDATE_DIALOG_CALLBACK = "HOT_UPDATE_DIALOG_CALLBACK",
