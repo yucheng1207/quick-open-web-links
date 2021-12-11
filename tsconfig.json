@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "allowJs": true,
+        "noImplicitAny": true,
+        "sourceMap": true,
+        "outDir": "dist/main",
+        "baseUrl": ".",
+        // "rootDir": ".",
+        "paths": {
+            "@/*": ["src/main/*"],
+            "@main/*": ["src/main/*"]
+        }
+    },
+    "include": ["src/main/**/*"]
+}
