@@ -9,7 +9,7 @@ import AutoUpdater from '../updater/AutoUpdater';
 import DialogManager from '../managers/DialogManager/index';
 import NeDBManager from '../store/NeDBManager';
 import StoreConfigs from '../store/StoreConfigs'
-import WebLinksManager from '../managers/WebLinksManager/index';
+import WebLinksManager, { IWebLink } from '../managers/WebLinksManager/index';
 
 const OPEN_AUTO_UPDATE = false // 暂时关闭自动更新监测
 
@@ -243,8 +243,9 @@ class Application {
 		WindowManager.getInstance().reloadMainWindow(Globals.WEBVIEW_ROOT_URL)
 	}
 
-	private openWebLink(url: string) {
-		WindowManager.getInstance().reloadMainWindow(url)
+	private openWebLink(item: IWebLink) {
+		WebLinksManager.getInstance().setCurrentLink(item)
+		WindowManager.getInstance().reloadMainWindow(item.url)
 	}
 
 	private openDevTools() {
@@ -273,7 +274,7 @@ class Application {
 						submenu: weblinks ? weblinks.map(item => {
 							return {
 								label: item.name,
-								click: this.openWebLink.bind(this, item.url)
+								click: this.openWebLink.bind(this, item)
 							}
 						}) : []
 					},

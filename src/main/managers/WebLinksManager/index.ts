@@ -2,7 +2,7 @@ import NeDBManager from '../../store/NeDBManager';
 import StoreNames from '../../store/StoreName';
 import { Logger } from '../LoggerManager/index';
 
-interface IWebLink {
+export interface IWebLink {
 	id: string;
 	name: string;
 	url: string;
