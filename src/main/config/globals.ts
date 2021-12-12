@@ -17,11 +17,14 @@ const htmlPath = isDev ? `http://localhost:${env.RENDERER_PORT || 3000}` : path.
 const logPath = path.join(tmpdir, env.LOG_FOLDER)
 const logName = 'app.log'
 const protocol = env.DEFAULT_PROTOCOL_CLIENT
+const userDataPath = app.getPath('userData')
+const webLinksDatastorePath = path.join(userDataPath, 'web_links_record.db')
+const webLinkSelectedDatastorePath = path.join(userDataPath, 'web_link_selected_record.db')
 console.log('主进程环境：', appEnv, process.env.NODE_ENV)
 console.log('日志文件路径：', path.join(logPath, logName));
 console.log('Webview路径：', htmlPath);
 console.log('应用Deeplink协议', protocol)
-console.log('userData:', app.getPath('userData'))
+console.log('userData:', userDataPath)
 console.log('appData:', app.getPath('appData'))
 console.log('cache:', app.getPath('cache'))
 console.log('temp:', app.getPath('temp'))
@@ -35,4 +38,6 @@ export const Globals = {
 	LOG_PATH: logPath, // 日志文件所在路径
 	LOG_NAME: logName, // 日志文件名称
 	DEFAULT_PROTOCOL_CLIENT: protocol, // 应用Deeplink协议
+	WEB_LINKS_DATASTORE_PATH: webLinksDatastorePath,
+	WEB_LINK_SELECTED_DATASTORE_PATH: webLinkSelectedDatastorePath,
 };

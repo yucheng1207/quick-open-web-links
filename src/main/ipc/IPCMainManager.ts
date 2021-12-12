@@ -3,6 +3,8 @@ import { IPCRendererToMainChannelName, IPCMainToRenderChannelName } from "./IPCC
 import * as path from 'path';
 import { Globals } from '../config/globals';
 import DialogManager from '../managers/DialogManager/index';
+import WebLinksManager from '../managers/WebLinksManager/index';
+import { Logger } from '../managers/LoggerManager/index';
 
 const logPath = path.join(Globals.LOG_PATH, Globals.LOG_NAME)
 
@@ -56,6 +58,21 @@ export default class IPCMainManager {
 			case (IPCRendererToMainChannelName.OPEN_URL):
 				this.handleOpenUrl(event, args);
 				break;
+			case (IPCRendererToMainChannelName.GET_WEB_LINKS):
+				await this.handleGetWebLinks(event, args);
+				break;
+			case (IPCRendererToMainChannelName.SAVE_WEB_LINK):
+				await this.handleSaveWebLink(event, args);
+				break;
+			case (IPCRendererToMainChannelName.DELETE_WEB_LINK):
+				await this.handleDeleteWebLink(event, args);
+				break;
+			case (IPCRendererToMainChannelName.GET_CURRENT_LINK):
+				await this.handleGetCurrentLink(event, args);
+				break;
+			case (IPCRendererToMainChannelName.SET_CURRENT_LINK):
+				await this.handleSetCurrentLink(event, args);
+				break;
 			default:
 				break;
 		}
@@ -79,5 +96,70 @@ export default class IPCMainManager {
 	private handleOpenUrl(event: any, args: any[]) {
 		const url = args[0] as string;
 		shell.openExternal(url);
+	}
+
+	private async handleGetWebLinks(event: any, args: any[]) {
+		let result = null
+		try {
+			result = await WebLinksManager.getInstance().getLinks();
+		}
+		catch (err) {
+			console.error(err);
+			Logger.info(err);
+		}
+		event.returnValue = result
+	}
+
+	private async handleSaveWebLink(event: any, args: any[]) {
+		const data = args[0]
+		let result = null
+		try {
+			result = await WebLinksManager.getInstance().saveLink(data);
+		}
+		catch (err) {
+			console.error(err);
+			Logger.info(err);
+		}
+		event.returnValue = result
+	}
+
+	private async handleDeleteWebLink(event: any, args: any[]) {
+		const data = args[0]
+		let result = null
+		try {
+			result = await WebLinksManager.getInstance().deleteWebLink(data);
+		}
+		catch (err) {
+			console.error(err);
+			Logger.info(err);
+		}
+		event.returnValue = result
+	}
+
+
+	private async handleGetCurrentLink(event: any, args: any[]) {
+		let result = null
+		try {
+			result = await WebLinksManager.getInstance().getCurrentLink();
+		}
+		catch (err) {
+			console.error(err);
+			Logger.info(err);
+		}
+		event.returnValue = result
+	}
+
+	private async handleSetCurrentLink(event: any, args: any[]) {
+		const data = args[0]
+		let success = false
+		try {
+			await WebLinksManager.getInstance().setCurrentLink(data);
+			success = true
+		}
+		catch (err) {
+			console.error(err);
+			Logger.info(err);
+		}
+		event.returnValue = success
 	}
 }

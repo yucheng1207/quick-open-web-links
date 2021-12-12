@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import styles from './index.module.scss';
-import HelloWorld from '../../components/HelloWorld';
+import LinkList from '../../components/LinkList';
 import IPCRendererManager from '../../ipc/IPCRendererManager';
 
 interface Props { }
@@ -11,7 +11,7 @@ const App: React.FunctionComponent<Props> = (props) => {
 	}, [])
 	return (
 		<div className={styles.home}>
-			<HelloWorld />
+			<LinkList />
 		</div>
 	);
 };

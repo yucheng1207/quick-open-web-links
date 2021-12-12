@@ -5,10 +5,10 @@ interface Props {
 
 }
 
-const App: React.FunctionComponent<Props> = (props) => {
-	return <div className={styles.App}>
+const HelloWorld: React.FunctionComponent<Props> = (props) => {
+	return <div className={styles.container}>
 		<span>hello_world</span>
 	</div>
 }
 
-export default App;
+export default HelloWorld;

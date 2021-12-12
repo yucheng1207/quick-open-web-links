@@ -1,12 +1,19 @@
 import { IPCRendererToMainChannelName, IPCMainToRenderChannelName } from "../../../main/ipc/IPCChannelName";
 const { ipcRenderer } = window.require("electron");
 
+export interface IWebLink {
+	id: string;
+	name: string;
+	url: string;
+	enable: boolean;
+}
+
 export default class IPCRendererManager {
 	private static _manager: IPCRendererManager;
 
 	public init() {
 		this.mainInfoNotificationInit()
-		this.displayMaskNotificationInit();
+		this.displayMaskNotificationInit()
 	}
 
 	public static getInstance() {
@@ -79,5 +86,35 @@ export default class IPCRendererManager {
 	 */
 	public openDevTool() {
 		ipcRenderer.send(IPCRendererToMainChannelName.OPEN_DEV_TOOL);
+	}
+
+	public getWebLinks() {
+		const result: IWebLink[] = ipcRenderer.sendSync(IPCRendererToMainChannelName.GET_WEB_LINKS);
+
+		return result || []
+	}
+
+	public saveWebLink(data: IWebLink) {
+		const result: IWebLink[] = ipcRenderer.sendSync(IPCRendererToMainChannelName.SAVE_WEB_LINK, data);
+
+		return result || []
+	}
+
+	public deleteWebLink(data: IWebLink) {
+		const result: IWebLink[] = ipcRenderer.sendSync(IPCRendererToMainChannelName.DELETE_WEB_LINK, data);
+
+		return result || []
+	}
+
+	public getCurrentLink() {
+		const result: IWebLink | null = ipcRenderer.sendSync(IPCRendererToMainChannelName.GET_CURRENT_LINK);
+
+		return result
+	}
+
+	public setCurrentLink(data: IWebLink) {
+		const result: IWebLink | null = ipcRenderer.sendSync(IPCRendererToMainChannelName.SET_CURRENT_LINK, data);
+
+		return result
 	}
 }

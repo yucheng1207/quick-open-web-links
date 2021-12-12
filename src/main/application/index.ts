@@ -9,6 +9,7 @@ import AutoUpdater from '../updater/AutoUpdater';
 import DialogManager from '../managers/DialogManager/index';
 import NeDBManager from '../store/NeDBManager';
 import StoreConfigs from '../store/StoreConfigs'
+import WebLinksManager from '../managers/WebLinksManager/index';
 
 /**
  * Measure performance
@@ -39,13 +40,14 @@ class Application {
 		return this._app;
 	}
 
-	public init(): void {
+	public async init(): Promise<void> {
 		performance.mark(MARKS.APP_START);
 		const _app = this.getApplication()
 
 		this.configDialog();
 		this.setDeepLink();
-		this.neDBInit();
+		await this.neDBInit();
+		await this.webLinksInit();
 
 		// Electron 在完成初始化，并准备创建浏览器窗口时，
 		// 会调用这个方法。
@@ -248,6 +250,16 @@ class Application {
 			for (const config of StoreConfigs) {
 				await NeDBManager.getInstance().addDataStore(config.name, config.options);
 			}
+		}
+		catch (err) {
+			console.error(err);
+			Logger.error(err);
+		}
+	}
+
+	private async webLinksInit() {
+		try {
+			await WebLinksManager.getInstance().init()
 		}
 		catch (err) {
 			console.error(err);
