@@ -21,9 +21,9 @@ const LinkList: React.FunctionComponent<Props> = (props) => {
 	/**
 	 * 从数据库获取最新数据
 	 */
-	const updateInfo = useCallback(() => {
-		const webLinks = IPCRendererManager.getInstance().getWebLinks()
-		const currentLink = IPCRendererManager.getInstance().getCurrentLink()
+	const updateInfo = useCallback(async () => {
+		const webLinks = await IPCRendererManager.getInstance().getWebLinks()
+		const currentLink = await IPCRendererManager.getInstance().getCurrentLink()
 		console.log('webLinks', webLinks)
 		console.log('currentLink', currentLink)
 		setData(webLinks)
@@ -33,7 +33,7 @@ const LinkList: React.FunctionComponent<Props> = (props) => {
 	const onChange = useCallback(async (e: RadioChangeEvent) => {
 		const current = data.find(item => item.id === e.target.value)
 		if (current) {
-			const success = IPCRendererManager.getInstance().setCurrentLink(current)
+			const success = await IPCRendererManager.getInstance().setCurrentLink(current)
 			if (success) {
 				setSelected(e.target.value)
 			} else {
@@ -61,8 +61,8 @@ const LinkList: React.FunctionComponent<Props> = (props) => {
 	const onFinish = useCallback(async (values: { name: string, url: string }) => {
 		if (initialValues) {
 			const data = { ...initialValues, ...values }
-			IPCRendererManager.getInstance().saveWebLink(data)
-			IPCRendererManager.getInstance().setCurrentLink(data)
+			await IPCRendererManager.getInstance().saveWebLink(data)
+			await IPCRendererManager.getInstance().setCurrentLink(data)
 			updateInfo()
 			setConfirmLoading(false)
 			setVisible(false)
@@ -104,14 +104,19 @@ const LinkList: React.FunctionComponent<Props> = (props) => {
 		setVisible(true)
 	}, [])
 
-	const onDeleteClick = useCallback((item: IWebLink) => {
-		IPCRendererManager.getInstance().deleteWebLink(item)
+	const onDeleteClick = useCallback(async (item: IWebLink) => {
+		await IPCRendererManager.getInstance().deleteWebLink(item)
 		updateInfo()
 	}, [updateInfo])
+
+	const onSubmit = useCallback(async () => {
+		await IPCRendererManager.getInstance().loadCurrentLink()
+	}, [])
 
 	return <div className={styles.container}>
 		<div className={styles.buttonContainer}>
 			<Button onClick={onAddClick}>添加</Button>
+			<Button onClick={onSubmit}>提交(加载选中链接)</Button>
 		</div>
 		<Radio.Group onChange={onChange} value={selected}>
 			<Space direction="vertical">

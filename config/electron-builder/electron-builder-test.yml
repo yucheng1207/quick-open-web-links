@@ -1,5 +1,5 @@
-artifactName: '${productName}-${version}.${ext}' # 应用最终的名称
-productName: UsefulElectronAppAlpha
+artifactName: "${productName}-${version}.${ext}" # 应用最终的名称
+productName: QuickOpenWebAppAlpha
 appId: com.example.app
 copyright: Example co
 # npmRebuild: false # 是否在开始编译前重构原生依赖,可先尝试true, 如果出现问题再修改为false
@@ -18,7 +18,7 @@ files:
 
 publish:
     - provider: generic
-      url: '' # TODO：配置应用更新路径，可以是oss路径
+      url: "" # TODO：配置应用更新路径，可以是oss路径
 
 nsis:
     oneClick: false # 是否一键安装(静默安装)
@@ -29,9 +29,9 @@ nsis:
     perMachine: true # 是否开启安装时权限限制（此电脑或当前用户）
     allowElevation: true # 需与perMachine: true 配合使用，则不让用选择（此电脑或当前用户）
 protocols:
-    name: 'useful-electron-app-test'
+    name: "quick-open-web-test"
     schemes:
-        - 'useful-electron-app-test'
+        - "quick-open-web-test"
 dmg:
     contents:
         - type: link
@@ -47,13 +47,13 @@ mac:
     # asar: false
     category: office
     icon: uIcon.png
-    artifactName: '${productName}-${version}.${ext}' # 应用安装程序名称
+    artifactName: "${productName}-${version}.${ext}" # 应用安装程序名称
 win:
     target: nsis
     # asar: false
     icon: uIcon.png
     verifyUpdateCodeSignature: false # 是否需要验证签名
-    artifactName: '${productName}-setup-${version}.${ext}' # 应用安装程序名称
+    artifactName: "${productName}-setup-${version}.${ext}" # 应用安装程序名称
     requestedExecutionLevel: requireAdministrator # 执行等级(是否需要管理员权限,通常情况不需要)
 linux:
     icon: uIcon.png

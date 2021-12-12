@@ -137,11 +137,18 @@ class Application {
 
 		try {
 			const loadingWindow = WindowManager.getInstance().createLoadingWindow();
+
+			let mainUrl = Globals.WEBVIEW_ROOT_URL
+			const currentLink = await WebLinksManager.getInstance().getCurrentLink()
+			if (currentLink) {
+				mainUrl = currentLink.url
+			}
+
 			performance.mark(MARKS.MAIN_WINDOW_START);
 			this._mainWindow = WindowManager.getInstance().createMainWindow({
 				hide: true, // 等加载完毕后（ready-to-show）再展示，在这之前显示的是loading window
-				url: Globals.WEBVIEW_ROOT_URL,
-				openDevTools: !Globals.IS_PROD,
+				url: mainUrl,
+				openDevTools: false, // !Globals.IS_PROD,
 				beforeLoad: (win: BrowserWindow) => {
 					// before window load， 注意这里this._mainWindow还没有赋值的
 					IPCMainManager.getInstance().init(win);
@@ -222,13 +229,54 @@ class Application {
 		globalShortcut.register('CommandOrControl+Q', () => {
 			app.quit();
 		})
+		globalShortcut.register('Command+R', () => {
+			this._mainWindow.reload()
+		})
+	}
+
+	/**
+	 * 打开weblinks编辑后台
+	 */
+	private openCms() {
+		WindowManager.getInstance().reloadMainWindow(Globals.WEBVIEW_ROOT_URL)
+	}
+
+	private openWebLink(url: string) {
+		WindowManager.getInstance().reloadMainWindow(url)
+	}
+
+	private openDevTools() {
+		this._mainWindow.webContents.openDevTools()
 	}
 
 	/**
 	 * 设置应用菜单
 	 */
-	private setupMenu() {
+	private async setupMenu() {
+		const weblinks = await WebLinksManager.getInstance().getLinks()
 		const menu = Menu.buildFromTemplate([
+			{
+				label: '菜单',
+				submenu: [
+					{
+						label: '打开调试器',
+						click: this.openDevTools.bind(this),
+					},
+					{
+						label: '编辑链接',
+						click: this.openCms.bind(this),
+					},
+					{
+						label: '切换链接',
+						submenu: weblinks ? weblinks.map(item => {
+							return {
+								label: item.name,
+								click: this.openWebLink.bind(this, item.url)
+							}
+						}) : []
+					},
+				]
+			},
 			{
 				label: '编辑',
 				submenu: [

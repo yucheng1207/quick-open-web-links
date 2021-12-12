@@ -1,5 +1,5 @@
 artifactName: "${productName}-${version}.${ext}" # 应用最终的名称
-productName: UsefulElectronAppRc
+productName: QuickOpenWebAppRc
 appId: com.example.app
 copyright: Example co
 # npmRebuild: false # 是否在开始编译前重构原生依赖,可先尝试true, 如果出现问题再修改为false
@@ -29,9 +29,9 @@ nsis:
     perMachine: true # 是否开启安装时权限限制（此电脑或当前用户）
     allowElevation: true # 需与perMachine: true 配合使用，则不让用选择（此电脑或当前用户）
 protocols:
-    name: "useful-electron-app-rc"
+    name: "quick-open-web-rc"
     schemes:
-        - "useful-electron-app-rc"
+        - "quick-open-web-rc"
 dmg:
     contents:
         - type: link

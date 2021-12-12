@@ -20,6 +20,11 @@ const defaultWebLinks: IWebLink[] = [{
 	name: '百度翻译',
 	url: 'https://fanyi.baidu.com/',
 	enable: true,
+}, {
+	id: 'baidu',
+	name: '百度一下',
+	url: 'https://www.baidu.com',
+	enable: true,
 }]
 
 export class WebLinksManager {
@@ -54,7 +59,7 @@ export class WebLinksManager {
 	}
 
 	public async getCurrentLink(): Promise<IWebLink | null> {
-		const result: IWebLink[] = await NeDBManager.getInstance().find(StoreNames.WEB_LINKS_RECORD_STORE, { enable: true });
+		const result: IWebLink[] = await NeDBManager.getInstance().find(StoreNames.WEB_LINK_SELECTED_RECORD_STORE, { enable: true });
 		return result && result[0] || null
 	}
 

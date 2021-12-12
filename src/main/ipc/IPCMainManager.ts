@@ -5,6 +5,7 @@ import { Globals } from '../config/globals';
 import DialogManager from '../managers/DialogManager/index';
 import WebLinksManager from '../managers/WebLinksManager/index';
 import { Logger } from '../managers/LoggerManager/index';
+import WindowManager from '../managers/WindowManager/index';
 
 const logPath = path.join(Globals.LOG_PATH, Globals.LOG_NAME)
 
@@ -72,6 +73,9 @@ export default class IPCMainManager {
 				break;
 			case (IPCRendererToMainChannelName.SET_CURRENT_LINK):
 				await this.handleSetCurrentLink(event, args);
+				break;
+			case (IPCRendererToMainChannelName.LOAD_CURRENT_LINK):
+				await this.handleLoadCurrentLink(event, args);
 				break;
 			default:
 				break;
@@ -154,6 +158,20 @@ export default class IPCMainManager {
 		let success = false
 		try {
 			await WebLinksManager.getInstance().setCurrentLink(data);
+			success = true
+		}
+		catch (err) {
+			console.error(err);
+			Logger.info(err);
+		}
+		event.returnValue = success
+	}
+
+	private async handleLoadCurrentLink(event: any, args: any[]) {
+		let success = false
+		try {
+			const currentLink = await WebLinksManager.getInstance().getCurrentLink();
+			currentLink && WindowManager.getInstance().reloadMainWindow(currentLink.url)
 			success = true
 		}
 		catch (err) {

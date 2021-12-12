@@ -1,5 +1,14 @@
 import { IPCRendererToMainChannelName, IPCMainToRenderChannelName } from "../../../main/ipc/IPCChannelName";
-const { ipcRenderer } = window.require("electron");
+// const { ipcRenderer } = window.require("electron");
+console.log('electron:', (window as any).electron)
+const electronApi = (window as any).electron
+const ipcRenderer = {
+	on: electronApi.handle,
+	send: electronApi.send,
+	sendSync: electronApi.sendSync,
+	sendAsync: electronApi.sendAsync,
+	invoke: electronApi.sendAsync,
+}
 
 export interface IWebLink {
 	id: string;
@@ -88,32 +97,38 @@ export default class IPCRendererManager {
 		ipcRenderer.send(IPCRendererToMainChannelName.OPEN_DEV_TOOL);
 	}
 
-	public getWebLinks() {
+	public async getWebLinks() {
 		const result: IWebLink[] = ipcRenderer.sendSync(IPCRendererToMainChannelName.GET_WEB_LINKS);
 
 		return result || []
 	}
 
-	public saveWebLink(data: IWebLink) {
+	public async saveWebLink(data: IWebLink) {
 		const result: IWebLink[] = ipcRenderer.sendSync(IPCRendererToMainChannelName.SAVE_WEB_LINK, data);
 
 		return result || []
 	}
 
-	public deleteWebLink(data: IWebLink) {
+	public async deleteWebLink(data: IWebLink) {
 		const result: IWebLink[] = ipcRenderer.sendSync(IPCRendererToMainChannelName.DELETE_WEB_LINK, data);
 
 		return result || []
 	}
 
-	public getCurrentLink() {
+	public async getCurrentLink() {
 		const result: IWebLink | null = ipcRenderer.sendSync(IPCRendererToMainChannelName.GET_CURRENT_LINK);
 
 		return result
 	}
 
-	public setCurrentLink(data: IWebLink) {
+	public async setCurrentLink(data: IWebLink) {
 		const result: IWebLink | null = ipcRenderer.sendSync(IPCRendererToMainChannelName.SET_CURRENT_LINK, data);
+
+		return result
+	}
+
+	public async loadCurrentLink() {
+		const result: IWebLink | null = ipcRenderer.sendSync(IPCRendererToMainChannelName.LOAD_CURRENT_LINK);
 
 		return result
 	}
