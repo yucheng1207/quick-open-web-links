@@ -53,8 +53,7 @@ export default class WindowManager {
 			width: 800,
 			height: 600,
 			frame: process.platform === 'darwin',
-			titleBarStyle:
-				process.platform === 'darwin' ? 'hiddenInset' : 'default',
+			// titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'default',
 			backgroundColor: '#FFFFFF',
 			webPreferences: {
 				webSecurity: Globals.IS_PROD,
@@ -75,6 +74,8 @@ export default class WindowManager {
 				preload: path.join(__dirname, `./preload/preload.js`),
 			},
 			show: !hide,
+			movable: true,
+			hasShadow: true,
 		};
 
 		const mainWin = createBrowserWindow({ url, options, beforeLoad, openDevTools });

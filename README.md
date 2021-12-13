@@ -1,10 +1,31 @@
 # quick-open-web-links
-一个用于打开指定url的桌面应用
+
+一个用于打开指定 url 的桌面应用
 
 # 项目创建
-该工程使用的useful-cli(1.0.8版本)创建
+
+该工程使用的 useful-cli(1.0.8 版本)创建
+
+# 下载试用
+
+[下载地址](https://pan.baidu.com/s/12wbHFl6nkS8_xiAPQ5HH7Q)，提取码：`p6af`
+
+# 使用
+
+## 添加/编辑新的链接
+
+点击应用左上角 菜单->编辑链接 即可对链接进行管理，点击提交即可设置选中链接为下次启动 app 时默认打开的链接
+
+[](./readme-assets/menu.jpg)
+
+## 切换链接
+
+可以通过上一步的编辑链接页面选中要切换的链接后点击提交按钮进行切换，也可以直接点击应用左上角 菜单->切换链接。
+
+[](./readme-assets/user-interface.jpg)
 
 # 开发
+
 ```bash
 # 本地调试
 yarn dev

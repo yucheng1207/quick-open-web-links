@@ -20,11 +20,6 @@ const defaultWebLinks: IWebLink[] = [{
 	name: '百度翻译',
 	url: 'https://fanyi.baidu.com/',
 	enable: true,
-}, {
-	id: 'baidu',
-	name: '百度一下',
-	url: 'https://www.baidu.com',
-	enable: true,
 }]
 
 export class WebLinksManager {

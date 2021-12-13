@@ -125,7 +125,10 @@ const LinkList: React.FunctionComponent<Props> = (props) => {
 						return <Radio value={item.id} key={item.id}>
 							<Space>
 								<Typography.Text>{item.name}</Typography.Text>
-								<Typography.Link onClick={(e) => onLinkIconClick(e, item.url)}>
+								{/* <Typography.Link onClick={(e) => onLinkIconClick(e, item.url)}>
+									<SelectOutlined />
+								</Typography.Link> */}
+								<Typography.Link target="_blank" href={item.url}>
 									<SelectOutlined />
 								</Typography.Link>
 								<Typography.Link onClick={(e) => onEditClick(e, item)}>
@@ -146,6 +149,8 @@ const LinkList: React.FunctionComponent<Props> = (props) => {
 			title={modalTitle}
 			visible={visible}
 			forceRender={true}
+			okText="确认"
+			cancelText="取消"
 			onOk={handleOk}
 			confirmLoading={confirmLoading}
 			onCancel={handleCancel}

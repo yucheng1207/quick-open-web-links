@@ -145,6 +145,7 @@ class Application {
 			if (currentLink) {
 				mainUrl = currentLink.url
 			}
+			Logger.info(`Main window url: ${mainUrl}`)
 
 			performance.mark(MARKS.MAIN_WINDOW_START);
 			this._mainWindow = WindowManager.getInstance().createMainWindow({
