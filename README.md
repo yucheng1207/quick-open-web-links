@@ -6,9 +6,9 @@
 
 该工程使用的 useful-cli(1.0.8 版本)创建
 
-# 下载试用
+# 下载
 
-[下载地址](https://pan.baidu.com/s/12wbHFl6nkS8_xiAPQ5HH7Q)，提取码：`p6af`
+可以到 [Release Page](https://github.com/yucheng1207/quick-open-web-links/releases) 下载最新版本安装包，mac 用户下载`dmg`文件，window 用户下载`exe`文件
 
 # 使用
 
